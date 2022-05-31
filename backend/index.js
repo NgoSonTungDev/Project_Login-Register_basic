@@ -3,8 +3,9 @@ const cors = require("cors")
 const dotenv = require("dotenv")
 const moongoose = require("mongoose")
 const bodyparser = require("body-parser")
-const authRouter = require("./routes/auth")
 const morgan = require("morgan");
+const authRouter = require("./routes/auth")
+const userRouter = require("./routes/user")
 
 
 const app= express()
@@ -29,3 +30,4 @@ app.listen(5000,()=>{
 })
 
 app.use("/api/auth",authRouter)
+app.use("/api/user",userRouter)
