@@ -4,12 +4,13 @@ const bcrypt = require("bcrypt");
 const authControllers = {
   register: async (req, res) => {
     try {
-      const salt = await bcrypt.genSalt(10);
-      const hashed = await bcrypt.hash(req.body.password, salt);
+      // const salt = await bcrypt.genSalt(10);
+      // const hashed = await bcrypt.hash(req.body.password, salt);
+      const hashedPassword = await bcrypt.hash(req.body.password,10)
       const newUSer = await new Users({
         username: req.body.username,
         email: req.body.email,
-        password: hashed,
+        password: hashedPassword,
       });
       const accountUser = await newUSer.save();
       res.status(200).json(accountUser);
