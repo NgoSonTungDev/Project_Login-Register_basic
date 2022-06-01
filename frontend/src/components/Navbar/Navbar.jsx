@@ -20,14 +20,10 @@ const Navbar = () => {
     <div>
       <div className="container_narbar">
         <div className="container_narbar_logo">
-          <p>API</p>
+          <p>SONTUNG_API</p>
         </div>
         <div className="container_narbar_content">
-          <div className="container_narbar_content_1">
-            <ul>
-              <li>Quản Lý tài khoản</li>
-            </ul>
-          </div>
+       
           <div className="container_narbar_content_name">
             <p>Nguyen van A</p>
           </div>

@@ -7,6 +7,7 @@
   background-color: #3498db;
   display: flex;
   align-items: center;
+  z-index: 50;
 
   .container_narbar_logo {
     width: 250px;
@@ -21,6 +22,7 @@
     p {
       margin-left: 10px;
       font-weight: 700;
+      font-size: 25px;
       text-transform: uppercase;
       color: #fff;
     }
