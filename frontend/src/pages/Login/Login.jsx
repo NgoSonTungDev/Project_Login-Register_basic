@@ -49,7 +49,7 @@ const Login = () => {
           setMessage("Đăng Nhập Thành công !!!");
           setStory("success");
           const check = response.data.admin;
-          if (check == false) {
+          if (check === false) {
             setTimeout(() => {
               navigation("/not-found");
             }, 1500);
@@ -108,7 +108,9 @@ const Login = () => {
             </table>
           </div>
           <div className="forgot">
-            <p>quên mật khẩu</p>
+            <p onClick={()=>{
+              navigation("/forgot-password")
+            }}>quên mật khẩu</p>
           </div>
 
           <br />
