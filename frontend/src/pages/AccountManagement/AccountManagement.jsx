@@ -27,7 +27,7 @@ const AccountManagement = () => {
             <input type="search" placeholder="Mã nhân viên cần tìm ..." />
           </div>
         </div>
-        <div className="container_AccountManagement_table">
+        <div className="container_AccountManagement_table" id="AccountManagement_table">
           <table>
             <tr>
               <th>ID</th>

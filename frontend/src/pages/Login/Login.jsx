@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../components/Navbar/Navbar";
 import "./Login.scss";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -13,6 +13,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const Login = () => {
   const navigation = useNavigate();
   const [user, setUser] = useState("");
+  const [check, setCheck] = useState(false);
   const [pass, setPass] = useState("");
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -30,31 +31,41 @@ const Login = () => {
     setOpen(false);
   };
 
-
   const handleLogin = () => {
-    if(user === "" || pass === ""){
+    setCheck(true);
+    if (user === "" || pass === "") {
       handleClick();
       setMessage("Không được bỏ trống !!!");
       setStory("warning");
-    }else{
+    } else {
       axios
-      .post("http://localhost:5000/api/auth/login", {
-        username: user,
-        password: pass,
-      })
-      .then(function (response) {
-        handleClick();
-        setMessage("Đăng Nhập Thành công !!!");
-        setStory("success");
-        setTimeout(() => {
-          navigation("/")
-        }, 2000);
-      })
-      .catch(function (error) {
-        handleClick();
-        setMessage("Đăng Nhập thất bại !!!");
-        setStory("error");
-      });
+        .post("http://localhost:5000/api/auth/login", {
+          username: user,
+          password: pass,
+        })
+        .then(function (response) {
+          setCheck(false);
+          handleClick();
+          setMessage("Đăng Nhập Thành công !!!");
+          setStory("success");
+          const check = response.data.admin;
+          if (check == false) {
+            setTimeout(() => {
+              navigation("/not-found");
+            }, 1500);
+          } else {
+            localStorage.setItem("username", response.data.username);
+            setTimeout(() => {
+              navigation("/accountmanagement");
+            }, 1500);
+          }
+        })
+        .catch(function (error) {
+          setCheck(false);
+          handleClick();
+          setMessage("Đăng Nhập thất bại !!!");
+          setStory("error");
+        });
     }
   };
 
@@ -96,9 +107,20 @@ const Login = () => {
               </tr>
             </table>
           </div>
+          <div className="forgot">
+            <p>quên mật khẩu</p>
+          </div>
+
           <br />
-          <br />
-          <button onClick={handleLogin}>Login</button>
+          <LoadingButton
+            className="buttonlogin"
+            onClick={handleLogin}
+            loading={check}
+            variant="outlined"
+          >
+            Submit
+          </LoadingButton>
+
           <p class="text">
             Don't have an account?{" "}
             <span

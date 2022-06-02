@@ -3,6 +3,7 @@ import "./Register.scss";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { useNavigate } from "react-router-dom";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -14,9 +15,10 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [open, setOpen] = useState(false);
+  const [check, setCheck] = useState(false);
   const [message, setMessage] = useState("");
   const [story, setStory] = useState("");
-const navigation = useNavigate()
+  const navigation = useNavigate();
   const handleClick = () => {
     setOpen(true);
   };
@@ -30,7 +32,9 @@ const navigation = useNavigate()
   };
 
   const handleRegister = () => {
+    setCheck(true);
     if (username === "" || password === "" || email === "") {
+      setCheck(false);
       handleClick();
       setMessage("Không được bỏ trống !!!");
       setStory("warning");
@@ -42,14 +46,16 @@ const navigation = useNavigate()
           email: email,
         })
         .then(function (response) {
+          setCheck(false);
           handleClick();
           setMessage("Đăng Kí Thành công !!!");
           setStory("success");
           setTimeout(() => {
-            navigation("/")
+            navigation("/");
           }, 2000);
         })
         .catch(function (error) {
+          setCheck(false);
           handleClick();
           setMessage("Đăng kí thất bại !!!");
           setStory("error");
@@ -61,7 +67,7 @@ const navigation = useNavigate()
     <div>
       <div className="container_Register">
         <div className="container_Register_form">
-          <h3>Đăng Nhập</h3>
+          <h3>Đăng Ký</h3>
           <div className="container_Register_form_text">
             <table>
               <tr>
@@ -110,7 +116,14 @@ const navigation = useNavigate()
           </div>
           <br />
           <br />
-          <button onClick={handleRegister}>Register</button>
+          <LoadingButton
+            className="buttonRegister"
+            onClick={handleRegister}
+            loading={false}
+            variant="outlined"
+          >
+            Submit
+          </LoadingButton>
         </div>
       </div>
       <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>

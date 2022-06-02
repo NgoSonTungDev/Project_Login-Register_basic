@@ -23,6 +23,7 @@
         tr {
           td {
             input {
+              padding: 3px 5px;
                 outline: none;
               margin-left: 15px;
             }
@@ -30,8 +31,9 @@
         }
       }
     }
-    button {
-      padding: 3px 30px;
+
+    .buttonlogin {
+      padding: 1px 30px;
       transform: translate(-50%, -50%);
       margin-left: 50%;
       border: none;
@@ -42,9 +44,9 @@
         font-weight: 600;
         color: #fff;
         background-color: #3498db;
-        border: 1px solid #000;
       }
     }
+
     .text {
       margin-top: 5px;
       font-size: 12px;
@@ -53,6 +55,16 @@
         cursor: pointer;
         color: #0d3aee;
       }
+    }
+
+    .forgot{
+      cursor: pointer;
+      margin-top: 8px;
+      text-align: right;
+      margin-right: 55px;
+      font-size: 11px;
+      color: #0d3aee;
+      text-transform: capitalize;
     }
   }
 }

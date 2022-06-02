@@ -21,8 +21,7 @@ const userController = {
   updateUser: async (req, res) => {
     try {
       const user = await Users.findById(req.params.id);
-      //   const salt = await bcrypt.genSalt(10);
-      //   const hashed = await bcrypt.hash(req.body.password, salt);
+      //  user.password = await bcrypt.hash(req.body.password, 10);
       await user.updateOne({ $set: req.body });
       res.status(200).json("Update Successfully !");
     } catch (error) {
