@@ -4,6 +4,8 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Login from "./pages/Login/Login";
 import NotFound from "./pages/NotFound/NotFound";
 import Register from "./pages/Register/Register";
+import './App.scss';
+
 
 function App() {
   return (

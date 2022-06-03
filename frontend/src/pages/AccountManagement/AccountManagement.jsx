@@ -71,6 +71,7 @@ const AccountManagement = () => {
           <h2>Quản Lý Tài Khoản</h2>
           <div class="search_quanlytk">
             <input type="search" placeholder="Mã nhân viên cần tìm ..." />
+            <i class="fa-brands fa-searchengin"></i>
           </div>
         </div>
         <div

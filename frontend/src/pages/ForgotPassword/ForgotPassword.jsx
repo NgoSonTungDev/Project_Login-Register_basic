@@ -1,33 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ForgotPassword.scss";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
 import FormOneForgot from "../../components/FormOneForgot/FormOneForgot";
 import FormTwoForgot from "../../components/FormTwoForgot/FormTwoForgot";
+import GoBack from "../../components/GoBack/GoBack";
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 const ForgotPassword = () => {
   const [data, setData] = useState([]);
   const [check, setCheck] = useState(false);
   const [userID, setUSerID] = useState("");
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState("");
-  const [story, setStory] = useState("");
 
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-  };
 
   useEffect(() => {
     console.log(userID);
@@ -50,15 +33,11 @@ const ForgotPassword = () => {
     var form1 = document.querySelector(".container_forgotPassword_form1");
     var form2 = document.querySelector(".container_forgotPassword_form2");
     if (check === false) {
-      handleClick();
-      setMessage("Đã tìm thấy user !!!");
-      setStory("success");
+
       form1.style.display = "none";
       form2.style.display = "block";
     } else {
-      handleClick();
-      setMessage("Không tìm thấy user này !!!");
-      setStory("info");
+
       form1.style.display = "block";
       form2.style.display = "none";
     }
@@ -74,11 +53,7 @@ const ForgotPassword = () => {
           <FormTwoForgot userID={userID} />
         </div>
       </div>
-      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={story} sx={{ width: "100%" }}>
-          {message}
-        </Alert>
-      </Snackbar>
+      <GoBack/>
     </div>
   );
 };

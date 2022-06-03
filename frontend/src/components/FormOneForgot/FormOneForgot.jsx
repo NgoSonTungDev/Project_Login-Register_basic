@@ -37,14 +37,16 @@ const FormOneForgot = (props) => {
       alert("Vui lòng nhập đầy đủ thông tin !!!");
     } else {
       if (data.find((e) => e.username === user)) {
-        setLoading(false);
         const valueId = data.find((e) => e.username === user);
         setUSerID(valueId._id);
+        setLoading(false);
         setCheck(true);
         handleClick();
         setMessage("Đã tìm thấy user !!!");
         setStory("success");
-        props.handleShow();
+        setTimeout(() => {
+          props.handleShow();
+        }, 1000);
       } else {
         setLoading(false);
         setCheck(false);

@@ -3,7 +3,6 @@ import "./Navbar.scss";
 import { Link } from "react-router-dom";
 const Navbar = () => {
   const [check, setCheck] = useState(true);
-  const [check2, setCheck2] = useState(true);
   const username = localStorage.getItem("username");
 
   const handleuser = () => {

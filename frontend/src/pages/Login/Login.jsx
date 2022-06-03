@@ -34,6 +34,7 @@ const Login = () => {
   const handleLogin = () => {
     setCheck(true);
     if (user === "" || pass === "") {
+      setCheck(false);
       handleClick();
       setMessage("Không được bỏ trống !!!");
       setStory("warning");

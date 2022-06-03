@@ -9,15 +9,33 @@
     text-align: center;
     display: flex;
     transform: translateY(70px);
+    h2{
+      cursor: no-drop;
+    }
     .search_quanlytk {
       margin-left: 15px;
       input {
-        cursor: pointer;
+        outline: none;
+        cursor: auto;
         margin-top: 5px;
         border: none;
         border-radius: 5px;
         border: 1px solid #444;
-        padding: 5px 10px;
+        padding: 2px 10px;
+      }
+      .fa-searchengin {
+        padding: 5px;
+        font-weight: 500;
+        border: none;
+        border: 1px solid #444;
+        transform: translateY(1px);
+        margin-left: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        &:hover {
+          background-color: #0984e3;
+          color: #fff;
+        }
       }
     }
   }
@@ -50,15 +68,15 @@
           i {
             font-size: 15px;
           }
-          &:nth-child(1):hover {
+          &:nth-child(2):hover {
             cursor: pointer;
             color: #f39c12;
           }
-          &:nth-child(2):hover {
+          &:nth-child(3):hover {
             cursor: pointer;
             color: #d63031;
           }
-          &:nth-child(3):hover {
+          &:nth-child(1):hover {
             cursor: pointer;
             color: #0984e3;
           }
@@ -73,6 +91,6 @@
 
   #AccountManagement_table::-webkit-scrollbar {
     width: 6px;
-    background-color: #F5F5F5;
-} 
+    background-color: #f5f5f5;
+  }
 }

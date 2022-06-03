@@ -5,9 +5,12 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  display: grid;
-  place-items: center;
+  position: relative;
   .container_Login_form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
     width: 30%;
     height: 250px;
     border-radius: 8px;
@@ -23,7 +26,7 @@
         tr {
           td {
             input {
-              padding: 3px 5px;
+              padding: 0px 5px;
                 outline: none;
               margin-left: 15px;
             }
@@ -48,17 +51,17 @@
     }
 
     .text {
-      margin-top: -7px;
+      margin-top: 1px;
       font-size: 12px;
       margin-left: 45px;
       span {
-        cursor: pointer;
+        cursor: help;
         color: #0d3aee;
       }
     }
 
     .forgot{
-      cursor: pointer;
+      cursor: help;
       margin-top: 8px;
       text-align: right;
       margin-right: 55px;
