@@ -63,7 +63,7 @@ const Login = () => {
         .catch(function (error) {
           setCheck(false);
           handleClick();
-          setMessage("Đăng Nhập thất bại !!!");
+          setMessage("Sai user or password !!!");
           setStory("error");
         });
     }
@@ -112,8 +112,6 @@ const Login = () => {
               navigation("/forgot-password")
             }}>quên mật khẩu</p>
           </div>
-
-          <br />
           <LoadingButton
             className="buttonlogin"
             onClick={handleLogin}
@@ -122,7 +120,6 @@ const Login = () => {
           >
             Submit
           </LoadingButton>
-
           <p class="text">
             Don't have an account?{" "}
             <span

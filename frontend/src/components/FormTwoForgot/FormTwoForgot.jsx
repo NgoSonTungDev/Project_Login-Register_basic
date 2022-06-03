@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./FormTwoForgot.scss";
 import LoadingButton from "@mui/lab/LoadingButton";
 import axios from "axios";
@@ -9,13 +9,18 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const FormTwoForgot = () => {
+const FormTwoForgot = (props) => {
+  const [id, setId] = useState("");
   const [loading, setLoading] = useState(false);
   const [oldPass, setOldPass] = useState("");
   const [newPass, setNewPass] = useState("");
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [story, setStory] = useState("");
+
+  useEffect(() => {
+    setId(props.userID);
+  }, [props.userID]);
 
   const handleClick = () => {
     setOpen(true);
@@ -29,24 +34,46 @@ const FormTwoForgot = () => {
     setOpen(false);
   };
 
-  const handleChangePass = () => {
-    axios
-      .post("http://localhost:5000/api/auth/62981df4470faa4e42048436", {
-        password: oldPass,
-      })
-      .then(function (response) {
-        hangdlechangePass();
-      })
-      .catch(function (error) {});
+  const handleChangePassOld = () => {
+    if (oldPass === "" || newPass === "") {
+      handleClick();
+      setStory("info");
+      setMessage("Vui lòng Nhập đầy đủ thông tin !!!");
+    } else {
+      setLoading(true);
+      axios
+        .post(`http://localhost:5000/api/auth/${id}`, {
+          password: oldPass,
+        })
+        .then(function (response) {
+          hangdlechangePassNew();
+        })
+        .catch(function (error) {
+          setLoading(false);
+          handleClick();
+          setStory("warning");
+          setMessage("Sai mật khẩu củ !!!");
+        });
+    }
   };
 
-  const hangdlechangePass = () => {
+  const hangdlechangePassNew = () => {
     axios
-      .put("http://localhost:5000/api/user/6295954aaf5b9d211415b96f", {
+      .put(`http://localhost:5000/api/user/${id}`, {
         password: newPass,
       })
-      .then(function (response) {})
-      .catch(function (error) {});
+      .then(function (response) {
+        setLoading(false);
+        handleClick();
+        setStory("success");
+        setMessage("Đổi mật khẩu thành công !!!");
+      })
+      .catch(function (error) {
+        setLoading(false);
+        handleClick();
+        setStory("warning");
+        setMessage("Đổi mật khẩu Thất bại !!!");
+      });
   };
 
   return (
@@ -77,7 +104,7 @@ const FormTwoForgot = () => {
         </div>
         <LoadingButton
           loading={loading}
-          onClick={handleChangePass}
+          onClick={handleChangePassOld}
           className="btnloadding"
           variant="outlined"
         >

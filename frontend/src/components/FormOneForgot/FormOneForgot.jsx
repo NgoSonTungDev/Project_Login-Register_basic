@@ -2,17 +2,38 @@ import React, { useState } from "react";
 import "./FormOneForgot.scss";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SendIcon from "@mui/icons-material/Send";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const FormOneForgot = (props) => {
   const [userID, setUSerID] = useState("");
   const [check, setCheck] = useState(false);
   const [user, setUSer] = useState("");
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [story, setStory] = useState("");
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   const data = props.dataAccount;
 
   const handleFindUser = () => {
     setLoading(true);
     if (user === "") {
+      setLoading(false);
       alert("Vui lòng nhập đầy đủ thông tin !!!");
     } else {
       if (data.find((e) => e.username === user)) {
@@ -20,8 +41,16 @@ const FormOneForgot = (props) => {
         const valueId = data.find((e) => e.username === user);
         setUSerID(valueId._id);
         setCheck(true);
+        handleClick();
+        setMessage("Đã tìm thấy user !!!");
+        setStory("success");
+        props.handleShow();
       } else {
+        setLoading(false);
         setCheck(false);
+        handleClick();
+        setMessage("Không tìm thấy user này !!!");
+        setStory("info");
       }
     }
   };
@@ -55,6 +84,11 @@ const FormOneForgot = (props) => {
           Send
         </LoadingButton>
       </div>
+      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={story} sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
