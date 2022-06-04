@@ -12,14 +12,22 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const AccountManagement = () => {
   const [data, setData] = useState([]);
+  const [dataUSer, setDataUSer] = useState([]);
   const [ID, setID] = useState("");
   const [show, setShow] = useState(false);
+  const [show2, setShow2] = useState(false);
+  const [showUpdate, setShowUdate] = useState(false);
+  const [newUsername, setNewUsername] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newPass, setNewPass] = useState("");
   const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
   const [message, setMessage] = useState("");
   const [story, setStory] = useState("");
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleCloseView = () => setShow2(false);
+  const handleCloseUpdate = () => setShowUdate(false);
 
   const handleClick2 = () => {
     setOpen(true);
@@ -31,6 +39,14 @@ const AccountManagement = () => {
     }
 
     setOpen(false);
+  };
+
+  const handleClose3 = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen2(false);
   };
 
   useEffect(() => {
@@ -52,14 +68,86 @@ const AccountManagement = () => {
         setTimeout(() => {
           window.location.reload();
         }, 1000);
-        handleClick2()
-        setMessage("Xóa thành công !!! ")
-        setStory("success")
+        handleClick2();
+        setMessage("Xóa thành công !!! ");
+        setStory("success");
       })
       .catch(function (error) {
-        handleClick2()
-        setMessage("Xóa thất bại !!! ")
-        setStory("error")
+        handleClick2();
+        setMessage("Xóa thất bại !!! ");
+        setStory("error");
+      });
+  };
+
+  const handleIntroduceUSer = () => {
+    axios
+      .get(`http://localhost:5000/api/user/${ID}`)
+      .then(function (response) {
+        setShow2(true);
+        setDataUSer(response.data);
+        handleClick2();
+        setMessage("Trích xuất thành công !!! ");
+        setStory("success");
+      })
+      .catch(function (error) {
+        handleClick2();
+        setMessage("Gặp vấn đề !!! ");
+        setStory("error");
+      });
+  };
+
+  const handleUpdateUSer = () => {
+    axios
+      .get(`http://localhost:5000/api/user/${ID}`)
+      .then(function (response) {
+        setShowUdate(true);
+        console.log(response.data);
+        // setNewEmail()
+        // setNewUsername()
+        // setNewPass()
+        handleClick2();
+        setMessage("Trích xuất thành công !!! ");
+        setStory("success");
+      })
+      .catch(function (error) {
+        handleClick2();
+        setMessage("Gặp vấn đề !!! ");
+        setStory("error");
+      });
+  };
+
+  const handleButtonUpate = () => {
+    if (newUsername === "" || newPass === "" || newEmail === "") {
+      handleClick2();
+      setMessage("Không được bỏ trống !!! ");
+      setStory("info");
+    } else {
+      setOpen2(true);
+      setShowUdate(false);
+    }
+  };
+
+  const handlePushUpdateAPi = () => {
+    axios
+      .put(`http://localhost:5000/api/user/${ID}`, {
+        username: newUsername,
+        email: newEmail,
+        password: newPass,
+      })
+      .then(function (response) {
+        handleClick2();
+        setOpen2(false);
+        setStory("success");
+        setMessage("Cập nhật thành công !!!");
+      })
+      .catch(function (error) {
+        setNewEmail("");
+        setNewPass("");
+        setNewUsername("");
+        handleClick2();
+        setOpen2(false);
+        setMessage("Gặp vấn đề !!! ");
+        setStory("error");
       });
   };
 
@@ -71,7 +159,12 @@ const AccountManagement = () => {
           <h2>Quản Lý Tài Khoản</h2>
           <div class="search_quanlytk">
             <input type="search" placeholder="Mã nhân viên cần tìm ..." />
-            <i class="fa-brands fa-searchengin"></i>
+            <i
+              class="fa-brands fa-searchengin"
+              onClick={() => {
+                handleUpdateUSer();
+              }}
+            ></i>
           </div>
         </div>
         <div
@@ -93,7 +186,12 @@ const AccountManagement = () => {
                 <td>{item.email}</td>
                 <td>{item.updatedAt}</td>
                 <td>
-                  <button>
+                  <button
+                    onClick={() => {
+                      handleIntroduceUSer();
+                      setID(item._id);
+                    }}
+                  >
                     <i class="fa-solid fa-user-tag"></i>{" "}
                     <span>Xem chi tiết</span>
                   </button>
@@ -115,6 +213,7 @@ const AccountManagement = () => {
           </table>
         </div>
       </div>
+      {/* //////////////////////////////////// */}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Thông Báo</Modal.Title>
@@ -129,11 +228,126 @@ const AccountManagement = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      {/* //////////////////////////////////// */}
+      <Modal show={show2} onHide={handleCloseView}>
+        <Modal.Header closeButton>
+          <Modal.Title>Thông Tin Tài Khoản</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="Container_bodyModal">
+          <div className="Container_bodyModal_content">
+            <table>
+              <tr>
+                <td>Id : </td>
+                <td>{dataUSer._id}</td>
+              </tr>
+              <tr>
+                <td>Tên tài khoản :</td>
+                <td>{dataUSer.username}</td>
+              </tr>
+              <tr>
+                <td>Email : </td>
+                <td>{dataUSer.email}</td>
+              </tr>
+              <tr>
+                <td>Thời gian tạo tài khoản</td>
+                <td>{dataUSer.createdAt}</td>
+              </tr>
+              <tr>
+                <td>Thời gian vừa cập nhật :</td>
+                <td>{dataUSer.updatedAt}</td>
+              </tr>
+            </table>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseView}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/* //////////////////////////////////// */}
+      <Modal show={showUpdate} onHide={handleCloseUpdate}>
+        <Modal.Header closeButton>
+          <Modal.Title>Cập Nhật Tài Khoản</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="Container_bodyModal_update">
+          <div className="Container_bodyModal_content">
+            <table>
+              <tr>
+                <td>Id : </td>
+                <td>id</td>
+              </tr>
+              <tr>
+                <td>Tên tài khoản :</td>
+                <td>
+                  <input
+                    type="text"
+                    value={newUsername}
+                    onChange={(e) => {
+                      setNewUsername(e.target.value);
+                    }}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Email : </td>
+                <td>
+                  <input
+                    type="text"
+                    value={newEmail}
+                    onChange={(e) => {
+                      setNewEmail(e.target.value);
+                    }}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Mật khẩu : </td>
+                <td>
+                  <input
+                    type="password"
+                    value={newPass}
+                    onChange={(e) => {
+                      setNewPass(e.target.value);
+                    }}
+                  />
+                </td>
+              </tr>
+            </table>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseUpdate}>
+            Close
+          </Button>
+          <Button variant="warning" onClick={handleButtonUpate}>
+            Update
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/* //////////////////////////////////// */}
       <Snackbar open={open} autoHideDuration={1000} onClose={handleClose2}>
         <Alert onClose={handleClose2} severity={story} sx={{ width: "100%" }}>
           {message}
         </Alert>
       </Snackbar>
+      {/* ///////////////////////////////////////// */}
+      <Modal show={open2} onHide={handleClose3}>
+        <Modal.Header closeButton>
+          <Modal.Title>Thông Báo</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Bạn chắt chắn muốn Cập nhật tài khoản này không ?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose3}>
+            Close
+          </Button>
+          <Button variant="warning" onClick={handlePushUpdateAPi}>
+            Update
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
